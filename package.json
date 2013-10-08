@@ -10,9 +10,10 @@
         "type": "git",
         "url": "git://github.com/shoota/ltsv2obj.git"
     },
-    "scripts": {
-    },
     "devDependencies": {
+        "underscore": "1.5.2"
+    },
+    "scripts": {
     },
     "engines": {
     }
