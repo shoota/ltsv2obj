@@ -9,4 +9,4 @@ converter for ltsv to object.
 
 License
 ----------
-Distributed under the [MIT License][mit].  
+Distributed under the MIT License.  
