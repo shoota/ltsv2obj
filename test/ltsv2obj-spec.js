@@ -25,9 +25,6 @@ describe('about generate ltsv2obj as default', function(){
     //function
     it('should has methods', function(){
 
-        // constructor
-        types[2].should.equal(typeof ltsv_default.ltsv2obj);
-
         // prototype methods
         types[2].should.equal(typeof ltsv_default.begin);
         types[2].should.equal(typeof ltsv_default.validateFile);
