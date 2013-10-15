@@ -3,12 +3,12 @@
     assert = require('assert'),
     evEmitter = require('events').EventEmitter;
 
-var types = ['string', 'number', 'function', 'object'];
+var TYPES = ['string', 'number', 'function', 'object'];
+var LTSV_BASE = 'test/test-base.ltsv';
+var ltsvParser = new ltsv2obj(LTSV_BASE);
 
 describe('about generate ltsv2obj as default', function(){
-    var testFile_base = 'test/test-base.ltsv';
-    var ltsv_default = new ltsv2obj(testFile_base, {});
-
+    var ltsv_default = new ltsv2obj(LTSV_BASE);
     // type
     it('should inherits EventEmitter', function(){
         assert.ok(ltsv_default instanceof  evEmitter);
@@ -17,34 +17,47 @@ describe('about generate ltsv2obj as default', function(){
     // property
     it('should has default property', function(){
         ltsv_default.config.should.have.property('cache', false);
-        ltsv_default.should.have.property('path', testFile_base);
+        ltsv_default.should.have.property('path', LTSV_BASE);
         should.exist(ltsv_default.readStore);
         should.not.exist(ltsv_default.data);
     });
 
     //function
     it('should has methods', function(){
-
         // prototype methods
-        types[2].should.equal(typeof ltsv_default.begin);
-        types[2].should.equal(typeof ltsv_default.validateFile);
-        types[2].should.equal(typeof ltsv_default.parseLTSV);
-        types[2].should.equal(typeof ltsv_default.getCache);
+        TYPES[2].should.equal(typeof ltsv_default.begin);
+        TYPES[2].should.equal(typeof ltsv_default.validateFile);
+        TYPES[2].should.equal(typeof ltsv_default.parseLTSV);
+        TYPES[2].should.equal(typeof ltsv_default.getCache);
     });
 });
 
 describe('about generate ltsv2obj with options', function(){
+    var ltsv_custom = new ltsv2obj(LTSV_BASE, {cache: true});
 
-    it('should has custom property');
+    it('should has custom property', function() {
+        true.should.equal(ltsv_custom.config.cache);
+    });
     it('should have data property when set cache option');
 
 });
 
-describe('about behaviour parseLTSV method', function(){
-    it('should parse LTSV');
+describe('about behavior methods', function(){
+
+    var filePath = 'test/test-base.ltsv';
+    var dirPath =  'test';
+
+    it('should parse LTSV string');
+
+    it('should return true only if the file path is given', function(){
+        should.ok(ltsvParser.validateFile(filePath));
+        should.ok(!ltsvParser.validateFile(dirPath));
+    });
 });
 
+
 describe('fire events', function(){
+
     it('should fire add event per parse');
     it('should fire end event in finish parse');
 });
