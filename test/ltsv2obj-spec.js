@@ -3,7 +3,6 @@
     assert = require('assert'),
     evEmitter = require('events').EventEmitter;
 
-var TYPES = ['string', 'number', 'function', 'object'];
 var LTSV_BASE = 'test/test-base.ltsv';
 var ltsvParser = new ltsv2obj(LTSV_BASE);
 
@@ -25,21 +24,26 @@ describe('about generate ltsv2obj as default', function(){
     //function
     it('should has methods', function(){
         // prototype methods
-        TYPES[2].should.equal(typeof ltsv_default.begin);
-        TYPES[2].should.equal(typeof ltsv_default.validateFile);
-        TYPES[2].should.equal(typeof ltsv_default.parseLTSV);
-        TYPES[2].should.equal(typeof ltsv_default.getCache);
+        ltsv_default.begin.should.have.type('function');
+        ltsv_default.validateFile.should.have.type('function');
+        ltsv_default.parseLTSV.should.have.type('function');
+        ltsv_default.getCache.should.have.type('function');
     });
 });
 
 describe('about generate ltsv2obj with options', function(){
-    var ltsv_custom = new ltsv2obj(LTSV_BASE, {cache: true});
+    var cache_true = new ltsv2obj(LTSV_BASE, {cache: true});
+    var cache_false = new ltsv2obj(LTSV_BASE, {cache: false});
 
     it('should has custom property', function() {
-        true.should.equal(ltsv_custom.config.cache);
+        cache_true.config.cache.should.be.true;
+        cache_false.config.cache.should.be.false;
     });
-    it('should have data property when set cache option');
 
+    it('should have data property only if cache option sat true', function() {
+        should.exist(cache_true.data);
+        should.not.exist(cache_false.data);
+    });
 });
 
 describe('about behavior methods', function(){
@@ -47,7 +51,21 @@ describe('about behavior methods', function(){
     var filePath = 'test/test-base.ltsv';
     var dirPath =  'test';
 
-    it('should parse LTSV string');
+    it('should parse LTSV string'
+//        , function(){
+//        var parsed = ltsvParser.parseLTSV('str:string\tnum:123\tbool:true');
+//        var expect = {
+//            str:'string',
+//            num:123,
+//            bool: true
+//        };
+//        expect.str.should.equal(parsed.str);
+//        expect.num.should.equal(parsed.num);
+//        expect.bool.should.equal(parsed.bool);
+//        assert.deepEqual(parsed, expect, 'it is deep equal between actual and expect');
+//
+//    }
+    );
 
     it('should return true only if the file path is given', function(){
         should.ok(ltsvParser.validateFile(filePath));
