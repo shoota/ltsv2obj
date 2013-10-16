@@ -51,31 +51,26 @@ describe('about behavior methods', function(){
     var filePath = 'test/test-base.ltsv';
     var dirPath =  'test';
 
-    it('should parse LTSV string'
-//        , function(){
-//        var parsed = ltsvParser.parseLTSV('str:string\tnum:123\tbool:true');
-//        var expect = {
-//            str:'string',
-//            num:123,
-//            bool: true
-//        };
-//        expect.str.should.equal(parsed.str);
-//        expect.num.should.equal(parsed.num);
-//        expect.bool.should.equal(parsed.bool);
-//        assert.deepEqual(parsed, expect, 'it is deep equal between actual and expect');
-//
-//    }
-    );
-
     it('should return true only if the file path is given', function(){
         should.ok(ltsvParser.validateFile(filePath));
         should.ok(!ltsvParser.validateFile(dirPath));
     });
+
+    it('should parse LTSV string', function(){
+        var parsed = ltsvParser.parseLTSV('str:string\tnum:123\tbool:true\r\n');
+        var expect = {
+            str:'string',
+            num:123,
+            bool:true
+        };
+        expect.str.should.equal(parsed.str);
+        expect.num.should.equal(parsed.num);
+        expect.bool.should.equal(parsed.bool);
+        assert.deepEqual(parsed, expect, 'it is deep equal between actual and expect');
+    });
 });
 
-
 describe('fire events', function(){
-
     it('should fire add event per parse');
     it('should fire end event in finish parse');
 });
