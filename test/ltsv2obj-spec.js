@@ -6,7 +6,7 @@
 var LTSV_BASE = 'test/test-base.ltsv';
 var ltsvParser = new ltsv2obj(LTSV_BASE);
 
-describe('about generate ltsv2obj as default', function(){
+describe('ltsv2obj generated as default', function(){
     var ltsv_default = new ltsv2obj(LTSV_BASE);
     // type
     it('should inherits EventEmitter', function(){
@@ -31,7 +31,7 @@ describe('about generate ltsv2obj as default', function(){
     });
 });
 
-describe('about generate ltsv2obj with options', function(){
+describe('ltsv2obj generated with options', function(){
     var cache_true = new ltsv2obj(LTSV_BASE, {cache: true});
     var cache_false = new ltsv2obj(LTSV_BASE, {cache: false});
 
@@ -46,7 +46,7 @@ describe('about generate ltsv2obj with options', function(){
     });
 });
 
-describe('about behavior methods', function(){
+describe('methods', function(){
 
     var filePath = 'test/test-base.ltsv';
     var dirPath =  'test';
@@ -70,7 +70,27 @@ describe('about behavior methods', function(){
     });
 });
 
-describe('fire events', function(){
-    it('should fire add event per parse');
-    it('should fire end event in finish parse');
+describe('events', function(){
+    it('should fire "end", "add", "readend" for reading file', function(done){
+        var lineNum=0;
+        ltsvParser.on('end',function(){
+            assert.ok(true, 'fire end event');
+        });
+
+        ltsvParser.on('add', function(){
+            lineNum++;
+        });
+
+        ltsvParser.on('readend',function(){
+            assert.ok(true, 'fire readend event');
+        });
+
+
+        ltsvParser.begin(function(obj){
+            obj.should.have.property('string');
+            obj.should.have.property('numeric');
+            obj.should.have.property('bool');
+        });
+        done();
+    });
 });

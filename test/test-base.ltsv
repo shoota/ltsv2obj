@@ -1,2 +1,10 @@
 string: a   numeric:12345   bool:true
-
+string: b   numeric:23456   bool:true
+string: c   numeric:34567   bool:true
+string: d   numeric:45678   bool:true
+string: e   numeric:78901   bool:true
+string: f   numeric:89012   bool:false
+string: g   numeric:90123   bool:false
+string: h   numeric:54321   bool:false
+string: i   numeric:43210   bool:false
+string: j   numeric:32109   bool:false
