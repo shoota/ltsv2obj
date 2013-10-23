@@ -1,11 +1,10 @@
 {
   "name": "ltsv2obj",
-  "version": "0.0.1",
-  "author": "shoota <shoota.dev@gmail.com>",
+  "version": "0.1.0",
+  "author": "Kumano Shoota <shoota.dev@gmail.com>",
   "description": "LTSV Converter to Objects.",
   "main": "./index.js",
   "license": "MIT",
-  "readmeFilename": "README.md",
   "repository": {
     "type": "git",
     "url": "git://github.com/shoota/ltsv2obj.git"
@@ -15,10 +14,16 @@
   },
   "devDependencies": {
     "mocha": "*",
-    "should": "~2.0.1"
+    "should": "*"
   },
   "scripts": {
     "test": "mocha"
   },
-  "engines": {}
+  "engines": {"node": ">= 0.4.0"},
+  "bugs": {
+    "url": "https://github.com/shoota/ltsv2obj/issues"
+  },
+  "keywords": [
+    "LTSV"
+  ]
 }
