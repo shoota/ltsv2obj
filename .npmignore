@@ -1,0 +1,5 @@
+.npmignore
+.git*
+.travis.yml
+*.md
+test/
