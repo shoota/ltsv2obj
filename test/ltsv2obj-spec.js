@@ -1,96 +1,98 @@
 ﻿var ltsv2obj = require('../index.js').ltsv2obj,
     should = require('should'),
-    assert = require('assert'),
-    evEmitter = require('events').EventEmitter;
+    assert = require('assert');
 
-var LTSV_BASE = 'test/test-base.ltsv';
-var ltsvParser = new ltsv2obj(LTSV_BASE);
+describe('ltsv2obj(path)', function(){
 
-describe('ltsv2obj generated as default', function(){
-    var ltsv_default = new ltsv2obj(LTSV_BASE);
-    // type
+    var ltsvParser = new ltsv2obj('test/test-base.ltsv');
     it('should inherits EventEmitter', function(){
-        assert.ok(ltsv_default instanceof  evEmitter);
+        var eventEmitter = require('events').EventEmitter
+        assert.ok(ltsvParser instanceof eventEmitter);
     });
 
-    // property
     it('should has default property', function(){
-        ltsv_default.config.should.have.property('cache', false);
-        ltsv_default.should.have.property('path', LTSV_BASE);
-        should.exist(ltsv_default.readStore);
-        should.not.exist(ltsv_default.data);
+        ltsvParser.should.have.property('path', 'test/test-base.ltsv');
+        ltsvParser.should.have.property('readStore', '');
+        var config = ltsvParser.config;
+        config.should.have.property('cache', false);
+        should.not.exist(ltsvParser.data);
     });
 
-    //function
-    it('should has methods', function(){
-        // prototype methods
-        ltsv_default.begin.should.have.type('function');
-        ltsv_default.validateFile.should.have.type('function');
-        ltsv_default.parseLTSV.should.have.type('function');
-        ltsv_default.getCache.should.have.type('function');
-    });
 });
 
-describe('ltsv2obj generated with options', function(){
-    var cache_true = new ltsv2obj(LTSV_BASE, {cache: true});
-    var cache_false = new ltsv2obj(LTSV_BASE, {cache: false});
+describe('ltsv2obj(path, option)', function(){
+    var cache = new ltsv2obj('test/test-base.ltsv', {cache: true});
+    var uncache = new ltsv2obj('test/test-base.ltsv', {cache: false});
 
     it('should has custom property', function() {
-        cache_true.config.cache.should.be.true;
-        cache_false.config.cache.should.be.false;
+        (cache.config.cache).should.be.true;
+        (uncache.config.cache).should.be.false;
     });
 
     it('should have data property only if cache option sat true', function() {
-        should.exist(cache_true.data);
-        should.not.exist(cache_false.data);
+        should.exist(cache.data);
+        should.not.exist(uncache.data);
     });
 });
 
-describe('methods', function(){
+describe('_onStreamData()', function(){
+    it('should return function');
+});
 
-    var filePath = 'test/test-base.ltsv';
-    var dirPath =  'test';
+describe('_onStreamEnd()', function(){
+    it('should return function');
+});
 
-    it('should return true only if the file path is given', function(){
-        should.ok(ltsvParser.validateFile(filePath));
-        should.ok(!ltsvParser.validateFile(dirPath));
-    });
+describe('parse()', function(){
+    it('should parse LTSV string while reading');
+});
 
-    it('should parse LTSV string', function(){
-        var parsed = ltsvParser.parseLTSV('str:string\tnum:123\tbool:true\r\n');
+describe('convertToJSON(ltsv_string)', function(){
+    var ltsvParser = new ltsv2obj('test/test-base.ltsv');
+    it('should return JSON object', function(){
+        var parsed = ltsvParser.convertToJSON('str:string\tnum:123\tbool:true\r\n');
         var expect = {
             str:'string',
             num:123,
             bool:true
         };
-        expect.str.should.equal(parsed.str);
-        expect.num.should.equal(parsed.num);
-        expect.bool.should.equal(parsed.bool);
         assert.deepEqual(parsed, expect, 'it is deep equal between actual and expect');
     });
 });
 
+
+
 describe('events', function(){
-    it('should fire "end", "add", "readend" for reading file', function(done){
+    it('should fire "begin", "end", "add" and "readend" for reading file', function(done){
         var lineNum=0;
-        ltsvParser.on('end',function(){
+        var ltsv2Parser = new ltsv2obj('test/test-base.ltsv');
+
+        ltsv2Parser.on('begin',function(){
+            assert.ok(true, 'fire begin event');
+        });
+
+        ltsv2Parser.on('end',function(){
             assert.ok(true, 'fire end event');
         });
 
-        ltsvParser.on('add', function(){
+        ltsv2Parser.on('add', function(){
             lineNum++;
         });
 
-        ltsvParser.on('readend',function(){
+        ltsv2Parser.on('readend',function(){
             assert.ok(true, 'fire readend event');
         });
 
 
-        ltsvParser.begin(function(obj){
+        ltsv2Parser.begin(function(obj){
             obj.should.have.property('string');
             obj.should.have.property('numeric');
             obj.should.have.property('bool');
         });
         done();
     });
+});
+
+describe('getCache()', function(){
+    it('should return JSON array when cache');
 });
